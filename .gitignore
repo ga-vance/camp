@@ -1,0 +1,17 @@
+# Logs
+logs 
+*.log
+npm-debug.log*
+
+# JS files
+/node_modules
+
+# Editor files
+.idea
+.vscode
+
+# System files
+.DS_Store
+
+# Environment
+.env
