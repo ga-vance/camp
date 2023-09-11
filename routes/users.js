@@ -5,6 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 const passport = require("passport");
 const ExpressError = require("../utils/ExpressError");
 const { userSchema } = require("../schemas.js");
+const { storeReturnTo } = require("../middleware");
 
 const validateUser = (req, res, next) => {
     const { error } = userSchema.validate(req.body);
@@ -48,13 +49,15 @@ router.get("/login", (req, res) => {
 
 router.post(
     "/login",
+    storeReturnTo,
     passport.authenticate("local", {
         failureFlash: true,
         failureRedirect: "/login",
     }),
     (req, res) => {
         req.flash("success", "Welcome Back!");
-        res.redirect("/campgrounds");
+        const redirectUrl = res.locals.returnTo || "/campgrounds";
+        res.redirect("redirectUrl");
     }
 );
 
