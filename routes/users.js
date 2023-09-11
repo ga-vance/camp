@@ -57,7 +57,7 @@ router.post(
     (req, res) => {
         req.flash("success", "Welcome Back!");
         const redirectUrl = res.locals.returnTo || "/campgrounds";
-        res.redirect("redirectUrl");
+        res.redirect(redirectUrl);
     }
 );
 
