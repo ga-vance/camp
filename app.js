@@ -19,10 +19,12 @@ const User = require("./models/user");
 const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/camprounds");
 const reviewRoutes = require("./routes/reviews");
+const dbUrl = process.env.DB_URL;
 
 const PORT = 3000;
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
+// mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
