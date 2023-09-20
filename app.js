@@ -21,8 +21,8 @@ const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/camprounds");
 const reviewRoutes = require("./routes/reviews");
 
-const PORT = 3000;
-const dbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
+const PORT = process.env.PORT || 3000;
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/yelp-camp";
 
 // const dbUrl = process.env.DB_URL; // Un-comment this to run cloud DB
 // mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
@@ -44,11 +44,13 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || "thisshouldbeabettersecret!";
+
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: "thisshouldbeabettersecret!",
+        secret: secret,
     },
 });
 
@@ -59,7 +61,7 @@ store.on("error", function (e) {
 const sessionConfig = {
     store,
     name: "session",
-    secret: "thisshouldbeabettersecret!",
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
